@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Loop — Project Overview</title>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #fff;
+            border-right: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .logo {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .tagline {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .nav-section {
+            padding: 16px 12px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            margin: 2px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: #1a1a1a;
+            font-size: 0.95em;
+        }
+
+        .nav-item:hover {
+            background: #f5f5f5;
+        }
+
+        .nav-item.active {
+            background: #f0f0f0;
+            font-weight: 500;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px 14px;
+            margin: 12px 0;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            color: #1a1a1a;
+            font-size: 0.9em;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-box:focus {
+            background: #fff;
+            border-color: #ccc;
+        }
+
+        .file-tree {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        .tree-section {
+            margin-bottom: 20px;
+        }
+
+        .tree-section-title {
+            font-weight: 600;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            margin-bottom: 8px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tree-item {
+            padding: 8px 12px;
+            margin: 1px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .tree-item:hover {
+            background: #f5f5f5;
+        }
+
+        .status-badge {
+            font-size: 0.7em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .status-complete {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-todo {
+            background: #f5f5f5;
+            color: #999;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-bar {
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .page-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .stat-label {
+            font-size: 0.75em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .tabs {
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0 32px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            color: #666;
+        }
+
+        .tab:hover {
+            color: #1a1a1a;
+        }
+
+        .tab.active {
+            border-bottom-color: #1a1a1a;
+            color: #1a1a1a;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+            background: #fafafa;
+        }
+
+        .content-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards and Sections */
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+
+        .section-subtitle {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: 24px 0 12px 0;
+            color: #1a1a1a;
+        }
+
+        .section-text {
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: #d0d0d0;
+        }
+
+        .card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1a1a1a;
+        }
+
+        .card-text {
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .card ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .card li {
+            margin: 6px 0;
+            color: #555;
+        }
+
+        /* List Styles */
+        .principle-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .principle-item {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            border-left: 3px solid #1a1a1a;
+        }
+
+        .principle-number {
+            font-weight: 700;
+            color: #1a1a1a;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .principle-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e5e5e5;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        th {
+            background: #f8f8f8;
+            color: #1a1a1a;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        /* Architecture Diagram */
+        .architecture-diagram {
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 20px 0;
+        }
+
+        .layer {
+            padding: 16px 20px;
+            margin: 10px 0;
+            background: #f8f8f8;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        /* Code blocks */
+        code {
+            background: #f5f5f5;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        pre {
+            background: #1a1a1a;
+            color: #f5f5f5;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 16px 0;
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Courier New', monospace;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: transparent;
+            color: #f5f5f5;
+            padding: 0;
+        }
+
+        .highlight {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Scrollbar */
+        .file-tree::-webkit-scrollbar,
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .file-tree::-webkit-scrollbar-track,
+        .content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .file-tree::-webkit-scrollbar-thumb,
+        .content::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 4px;
+        }
+
+        .file-tree::-webkit-scrollbar-thumb:hover,
+        .content::-webkit-scrollbar-thumb:hover {
+            background: #b0b0b0;
+        }
+
+        ul {
+            padding-left: 24px;
+        }
+
+        li {
+            margin: 8px 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Company Loop</div>
+                <div class="tagline">Persistent Operational Intelligence</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-item active" onclick="switchTab('overview')">
+                    <i data-lucide="home" style="width: 18px; height: 18px;"></i>
+                    <span>Overview</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('doctrine')">
+                    <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+                    <span>Doctrine</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('architecture')">
+                    <i data-lucide="cpu" style="width: 18px; height: 18px;"></i>
+                    <span>Architecture</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('corridors')">
+                    <i data-lucide="layout-grid" style="width: 18px; height: 18px;"></i>
+                    <span>Corridors</span>
+                </div>
+                <div class="nav-item" onclick="switchTab('roadmap')">
+                    <i data-lucide="map" style="width: 18px; height: 18px;"></i>
+                    <span>Roadmap</span>
+                </div>
+            </div>
+
+            <div style="padding: 12px;">
+                <input type="text" class="search-box" id="searchBox" placeholder="Search files...">
+            </div>
+
+            <div class="file-tree" id="fileTree">
+                <div class="tree-section">
+                    <div class="tree-section-title">
+                        <i data-lucide="file-text" style="width: 14px; height: 14px;"></i>
+                        Documentation
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>README.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>STRUCTURE.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>overview.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>business-map.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>system-of-records.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>doctrine.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                </div>
+
+                <div class="tree-section">
+                    <div class="tree-section-title">
+                        <i data-lucide="settings" style="width: 14px; height: 14px;"></i>
+                        Configuration
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>app.yaml</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>.env.example</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                </div>
+
+                <div class="tree-section">
+                    <div class="tree-section-title">
+                        <i data-lucide="cpu" style="width: 14px; height: 14px;"></i>
+                        Runtime
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>main.py</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>master_loop.py</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>sub_loop.py</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>scheduler.py</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>dispatcher.py</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                </div>
+
+                <div class="tree-section">
+                    <div class="tree-section-title">
+                        <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
+                        Self-Healing
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>medic.py</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>watchdog.py</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                </div>
+
+                <div class="tree-section">
+                    <div class="tree-section-title">
+                        <i data-lucide="database" style="width: 14px; height: 14px;"></i>
+                        The Nine
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>IDENTITY.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>HEARTBEAT.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>TODAY.md</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="todo">
+                        <span>BOOTSTRAP.md</span>
+                        <span class="status-badge status-todo">TODO</span>
+                    </div>
+                    <div class="tree-item" data-status="todo">
+                        <span>VOICE.md</span>
+                        <span class="status-badge status-todo">TODO</span>
+                    </div>
+                    <div class="tree-item" data-status="todo">
+                        <span>RULES.md</span>
+                        <span class="status-badge status-todo">TODO</span>
+                    </div>
+                </div>
+
+                <div class="tree-section">
+                    <div class="tree-section-title">
+                        <i data-lucide="layout-grid" style="width: 14px; height: 14px;"></i>
+                        Corridors
+                    </div>
+                    <div class="tree-item" data-status="complete">
+                        <span>sales/</span>
+                        <span class="status-badge status-complete">DONE</span>
+                    </div>
+                    <div class="tree-item" data-status="todo">
+                        <span>operations/</span>
+                        <span class="status-badge status-todo">TODO</span>
+                    </div>
+                    <div class="tree-item" data-status="todo">
+                        <span>finance/</span>
+                        <span class="status-badge status-todo">TODO</span>
+                    </div>
+                    <div class="tree-item" data-status="todo">
+                        <span>partnerships/</span>
+                        <span class="status-badge status-todo">TODO</span>
+                    </div>
+                    <div class="tree-item" data-status="todo">
+                        <span>workforce/</span>
+                        <span class="status-badge status-todo">TODO</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="top-bar">
+                <div class="page-title">Project Overview</div>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-value">29</div>
+                        <div class="stat-label">Files</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Corridors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">50%</div>
+                        <div class="stat-label">Complete</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('overview')">Overview</button>
+                <button class="tab" onclick="switchTab('doctrine')">Doctrine</button>
+                <button class="tab" onclick="switchTab('architecture')">Architecture</button>
+                <button class="tab" onclick="switchTab('corridors')">Corridors</button>
+                <button class="tab" onclick="switchTab('roadmap')">Roadmap</button>
+            </div>
+
+            <div class="content">
+                <div class="content-inner">
+                    <!-- Overview Tab -->
+                    <div id="overview" class="tab-content active">
+                        <div class="section">
+                            <h2 class="section-title">What Is Company Loop?</h2>
+                            <p class="section-text">Company Loop is a <span class="highlight">persistent operational intelligence system</span> for a catering and event business.</p>
+
+                            <p class="section-text">It is NOT:</p>
+                            <ul>
+                                <li>A chatbot</li>
+                                <li>A dashboard</li>
+                                <li>A workflow library</li>
+                                <li>A collection of disconnected automations</li>
+                            </ul>
+
+                            <p class="section-text">It IS:</p>
+                            <ul>
+                                <li>A continuously running loop that maintains continuity across time</li>
+                                <li>A standing operational presence that watches, filters, and acts within bounded authority</li>
+                                <li>An intelligence layer that converts raw business activity into bounded judgment</li>
+                                <li>A system that surfaces only what has earned the right to matter</li>
+                            </ul>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Core Components</h2>
+                            <div class="card-grid">
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="circle-dot" style="width: 20px; height: 20px;"></i>
+                                        Master Loop
+                                    </h4>
+                                    <p class="card-text">The persistent organism. Always on, maintaining continuity across sessions. Holds corridor states, open obligations, and memory relationships.</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="git-branch" style="width: 20px; height: 20px;"></i>
+                                        Sub-Loops
+                                    </h4>
+                                    <p class="card-text">Bounded episodes of live work. Open on triggers, must close through lock/refusal/timeout/handoff. Temporary by design.</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
+                                        Medic
+                                    </h4>
+                                    <p class="card-text">Self-healing health monitoring. Runs every hour to check system health, attempt recovery, and escalate critical issues.</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="eye" style="width: 20px; height: 20px;"></i>
+                                        Watchdog
+                                    </h4>
+                                    <p class="card-text">Monitors the medic itself. Simple by design - verifies medic ran within expected window. Runs every 30 minutes.</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="database" style="width: 20px; height: 20px;"></i>
+                                        The Nine
+                                    </h4>
+                                    <p class="card-text">Internal documentary substrate. Nine files that define identity, memory, tools, and obligations. The textual spine of the organism.</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="layout-grid" style="width: 20px; height: 20px;"></i>
+                                        Corridors
+                                    </h4>
+                                    <p class="card-text">Bounded domains of operational concern. 8 corridors: Sales, Operations, Finance, Partnerships, Workforce, Procurement, Marketing, Executive.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Operating Modes</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mode</th>
+                                        <th>Behavior</th>
+                                        <th>Human Approval</th>
+                                        <th>Use Case</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Shadow</strong></td>
+                                        <td>Observes and generates recommendations</td>
+                                        <td>Required for ALL outputs</td>
+                                        <td>Validation before promotion</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Draft</strong></td>
+                                        <td>Generates tasks, drafts, suggestions</td>
+                                        <td>Required for execution</td>
+                                        <td>Semi-autonomous operation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Autonomous</strong></td>
+                                        <td>Approved actions execute automatically</td>
+                                        <td>Only for high-stakes actions</td>
+                                        <td>After validation in shadow/draft</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Doctrine Tab -->
+                    <div id="doctrine" class="tab-content">
+                        <div class="section">
+                            <h2 class="section-title">Core Operating Doctrine</h2>
+                            <p class="section-text">These nine principles govern every Company Loop deployment. They are non-negotiable.</p>
+
+                            <ul class="principle-list">
+                                <li class="principle-item">
+                                    <span class="principle-number">1. Persistence</span>
+                                    <p class="principle-text">The loop is always on. It carries identity, memory, active obligations, and monitoring duties across time. It does not wake up as a stranger to yesterday.</p>
+                                </li>
+                                <li class="principle-item">
+                                    <span class="principle-number">2. Continuity Through the Master Loop</span>
+                                    <p class="principle-text">The master loop holds state. It maintains memory relationships, active corridor definitions, heartbeat obligations, and the current shape of what is open, settled, deferred, or awaiting action.</p>
+                                </li>
+                                <li class="principle-item">
+                                    <span class="principle-number">3. Bounded Activation</span>
+                                    <p class="principle-text">Sub-loops open only on defined triggers. The system does not open active work merely because it can. Every live cycle must be traceable to an opening condition.</p>
+                                </li>
+                                <li class="principle-item">
+                                    <span class="principle-number">4. Mandatory Closure</span>
+                                    <p class="principle-text">Every sub-loop must close. No sub-loop is permitted to linger indefinitely. A sub-loop may end in lock, refusal, timeout, or handoff - but it must end.</p>
+                                </li>
+                                <li class="principle-item">
+                                    <span class="principle-number">5. Writeback</span>
+                                    <p class="principle-text">Everything significant writes back into state. A loop that acts without writeback does not learn. The discipline of writeback is what allows the loop to mature rather than merely recur.</p>
+                                </li>
+                                <li class="principle-item">
+                                    <span class="principle-number">6. Filtration Before Surfacing</span>
+                                    <p class="principle-text">The human sees only what survives filtering. The loop exists to spare the human from raw informational pressure by performing the work of noticing, narrowing, comparing, ranking, and eliminating.</p>
+                                </li>
+                                <li class="principle-item">
+                                    <span class="principle-number">7. Refusal is Valid</span>
+                                    <p class="principle-text">Refusal is a valid and often intelligent outcome. The system is not obligated to produce an answer merely because a trigger occurred. Refusal protects from counterfeit certainty.</p>
+                                </li>
+                                <li class="principle-item">
+                                    <span class="principle-number">8. Earned Memory</span>
+                                    <p class="principle-text">Memory promotion is earned, not automatic. The loop records widely but promotes selectively. A loop that remembers everything equally well understands nothing proportionally.</p>
+                                </li>
+                                <li class="principle-item">
+                                    <span class="principle-number">9. Self-Maintenance as First-Class Function</span>
+                                    <p class="principle-text">Self-healing is part of the product. The medic exists because a persistent system that cannot inspect and recover itself is only temporarily persistent.</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">The Four Lawful Exits</h2>
+                            <p class="section-text">Every sub-loop must close through one of these four paths:</p>
+
+                            <div class="card-grid">
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="check-circle" style="width: 20px; height: 20px;"></i>
+                                        Lock (Promotion)
+                                    </h4>
+                                    <p class="card-text">Successful closure where a conclusion, recommendation, action, or output has survived filtering and is allowed to write upward into state or outward to the human.</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="x-circle" style="width: 20px; height: 20px;"></i>
+                                        Refusal
+                                    </h4>
+                                    <p class="card-text">Explicit closure where the lawful result is NOT to promote. The branch closes because action or promotion would be unsound, premature, unauthorized, or structurally weak.</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="clock" style="width: 20px; height: 20px;"></i>
+                                        Timeout
+                                    </h4>
+                                    <p class="card-text">Closure of a sub-loop that did not reach a promotable or refusible conclusion within its allotted operational window. A disciplined acknowledgment that not all processes mature on the current timeline.</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="arrow-up-right" style="width: 20px; height: 20px;"></i>
+                                        Handoff
+                                    </h4>
+                                    <p class="card-text">Closure by transfer rather than completion. Occurs when matter has reached boundary of autonomous authority, exceeded local complexity, or requires human judgment.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Architecture Tab -->
+                    <div id="architecture" class="tab-content">
+                        <div class="section">
+                            <h2 class="section-title">System Architecture</h2>
+
+                            <div class="architecture-diagram">
+                                <div class="layer">Master Loop (Persistent Organism)</div>
+                                <div class="layer">Sub-Loops (Bounded Work Episodes)</div>
+                                <div class="layer">Trigger Engine + Scheduler</div>
+                                <div class="layer">Corridor Logic (8 Domains)</div>
+                                <div class="layer">Integrations (Google, ClickUp, Close, Social)</div>
+                                <div class="layer">Action Layer (VY Mediated Execution)</div>
+                                <div class="layer">Memory (The Nine + Pieces)</div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Master Loop vs Sub-Loops</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Aspect</th>
+                                        <th>Master Loop</th>
+                                        <th>Sub-Loop</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Lifespan</strong></td>
+                                        <td>Persistent (always on)</td>
+                                        <td>Temporary (bounded)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Purpose</strong></td>
+                                        <td>Maintain continuity</td>
+                                        <td>Perform bounded work</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>State</strong></td>
+                                        <td>Holds corridor states, obligations, memory</td>
+                                        <td>Reads state, writes back result</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Closure</strong></td>
+                                        <td>Only on shutdown (gracefully)</td>
+                                        <td>Mandatory (lock/refusal/timeout/handoff)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Role</strong></td>
+                                        <td>The organism</td>
+                                        <td>The episode</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">The Nine Files</h2>
+                            <p class="section-text">Internal documentary substrate that makes identity-stable persistence possible.</p>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>File</th>
+                                        <th>Purpose</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>IDENTITY.md</td>
+                                        <td>What the agent is</td>
+                                        <td>COMPLETE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>BOOTSTRAP.md</td>
+                                        <td>How it wakes up</td>
+                                        <td>TODO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VOICE.md</td>
+                                        <td>How it speaks</td>
+                                        <td>TODO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RULES.md</td>
+                                        <td>How it behaves</td>
+                                        <td>TODO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>USER.md</td>
+                                        <td>What it knows about the human</td>
+                                        <td>TODO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TOOLS.md</td>
+                                        <td>What it can reach</td>
+                                        <td>TODO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MEMORY.md</td>
+                                        <td>What it remembers durably</td>
+                                        <td>TODO</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TODAY.md</td>
+                                        <td>What happened today (working memory)</td>
+                                        <td>COMPLETE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HEARTBEAT.md</td>
+                                        <td>What it must check proactively</td>
+                                        <td>COMPLETE</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Corridors Tab -->
+                    <div id="corridors" class="tab-content">
+                        <div class="section">
+                            <h2 class="section-title">Business Corridors</h2>
+                            <p class="section-text">A corridor is a bounded domain of operational concern within which the loop is allowed to observe, interpret, and act.</p>
+
+                            <div class="card-grid">
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="users" style="width: 20px; height: 20px;"></i>
+                                        Sales
+                                    </h4>
+                                    <p class="card-text">Lead management, source attribution, pipeline tracking, stale lead detection, tasting conversion, rep load balancing.</p>
+                                    <p class="card-text"><strong>Status:</strong> Specification complete</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="calendar" style="width: 20px; height: 20px;"></i>
+                                        Operations
+                                    </h4>
+                                    <p class="card-text">Event readiness, logistics coordination, vendor management, timeline tracking, complexity assessment.</p>
+                                    <p class="card-text"><strong>Status:</strong> TODO</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="dollar-sign" style="width: 20px; height: 20px;"></i>
+                                        Finance
+                                    </h4>
+                                    <p class="card-text">Invoice tracking, payment follow-up, budget monitoring, cashflow prediction, financial reporting.</p>
+                                    <p class="card-text"><strong>Status:</strong> TODO</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="handshake" style="width: 20px; height: 20px;"></i>
+                                        Partnerships
+                                    </h4>
+                                    <p class="card-text">Venue relationships, partner performance, contract renewals, relationship health tracking.</p>
+                                    <p class="card-text"><strong>Status:</strong> TODO</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="user-check" style="width: 20px; height: 20px;"></i>
+                                        Workforce
+                                    </h4>
+                                    <p class="card-text">Staff scheduling, conflict detection, capacity planning, certification tracking.</p>
+                                    <p class="card-text"><strong>Status:</strong> TODO</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="package" style="width: 20px; height: 20px;"></i>
+                                        Procurement
+                                    </h4>
+                                    <p class="card-text">Inventory management, vendor coordination, order tracking, prep window monitoring.</p>
+                                    <p class="card-text"><strong>Status:</strong> TODO</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="megaphone" style="width: 20px; height: 20px;"></i>
+                                        Marketing
+                                    </h4>
+                                    <p class="card-text">Social media coordination, content scheduling, engagement tracking, brand consistency.</p>
+                                    <p class="card-text"><strong>Status:</strong> TODO</p>
+                                </div>
+                                <div class="card">
+                                    <h4 class="card-title">
+                                        <i data-lucide="briefcase" style="width: 20px; height: 20px;"></i>
+                                        Executive
+                                    </h4>
+                                    <p class="card-text">Daily briefs, weekly summaries, urgent exceptions, strategic overview, decision support.</p>
+                                    <p class="card-text"><strong>Status:</strong> TODO</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Roadmap Tab -->
+                    <div id="roadmap" class="tab-content">
+                        <div class="section">
+                            <h2 class="section-title">Implementation Roadmap</h2>
+
+                            <h3 class="section-subtitle">Phase 1: Foundation (Complete)</h3>
+                            <ul>
+                                <li>Directory structure established</li>
+                                <li>Core documentation written</li>
+                                <li>Operating doctrine defined</li>
+                                <li>Master loop / sub-loop architecture</li>
+                                <li>Self-healing system (medic + watchdog)</li>
+                                <li>The Nine substrate created</li>
+                                <li>Configuration templates</li>
+                                <li>Bootstrap script</li>
+                            </ul>
+
+                            <h3 class="section-subtitle">Phase 2: Integration Layer (Next)</h3>
+                            <ul>
+                                <li>Google Workspace integration (Sheets, Calendar, Drive, Gmail)</li>
+                                <li>Close CRM integration</li>
+                                <li>ClickUp integration</li>
+                                <li>Social media integrations</li>
+                                <li>VY mediation layer</li>
+                                <li>Pieces memory bridge</li>
+                            </ul>
+
+                            <h3 class="section-subtitle">Phase 3: Corridor Implementation</h3>
+                            <ul>
+                                <li>Sales corridor (specification complete, needs implementation)</li>
+                                <li>Operations corridor</li>
+                                <li>Finance corridor</li>
+                                <li>Partnerships corridor</li>
+                                <li>Workforce corridor</li>
+                                <li>Procurement corridor</li>
+                                <li>Marketing corridor</li>
+                                <li>Executive corridor</li>
+                            </ul>
+
+                            <h3 class="section-subtitle">Phase 4: Shadow Mode Validation</h3>
+                            <ul>
+                                <li>Deploy in shadow mode</li>
+                                <li>Validate predictions vs manual workflows</li>
+                                <li>Collect accuracy metrics</li>
+                                <li>Refine corridor logic</li>
+                                <li>Build reporting infrastructure</li>
+                            </ul>
+
+                            <h3 class="section-subtitle">Phase 5: Promotion to Draft/Autonomous</h3>
+                            <ul>
+                                <li>Promote high-accuracy behaviors to draft mode</li>
+                                <li>Implement approval workflows</li>
+                                <li>Test autonomous actions (validated corridors only)</li>
+                                <li>Full production deployment</li>
+                            </ul>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Quick Start</h2>
+                            <pre><code># 1. Clone repository
+git clone [repository-url]
+cd company-loop
+
+# 2. Run bootstrap
+bash scripts/bootstrap.sh
+
+# 3. Configure credentials
+cp .env.example .env
+# Edit .env with your API credentials
+
+# 4. Start in shadow mode
+python runtime/main.py --mode shadow
+
+# 5. Test single corridor
+python runtime/main.py --corridor sales --mode shadow</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab (both in tabs and nav)
+            event.target.classList.add('active');
+        }
+
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.tree-item');
+
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
