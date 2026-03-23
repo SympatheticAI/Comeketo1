@@ -1,0 +1,303 @@
+# Company Loop — Main Configuration
+
+# System Metadata
+system:
+  name: "Company Loop"
+  version: "1.0.0"
+  deployment_id: "company-loop-v1"
+  environment: "local"  # local | staging | production
+
+# Runtime Settings
+runtime:
+  mode: "shadow"  # shadow | draft | autonomous
+  max_concurrent_corridors: 8
+  max_concurrent_tasks: 16
+  health_check_interval_seconds: 300  # 5 minutes
+
+# Model Configuration
+models:
+  primary:
+    provider: "openai"
+    model: "gpt-4"
+    temperature: 0.7
+    max_tokens: 2000
+
+  fallback:
+    provider: "anthropic"
+    model: "claude-sonnet-4-5"
+    temperature: 0.7
+    max_tokens: 2000
+
+  summarization:
+    provider: "openai"
+    model: "gpt-4-turbo"
+    temperature: 0.5
+    max_tokens: 1000
+
+# Corridor Configuration
+corridors:
+  enabled:
+    - sales
+    - operations
+    - finance
+    - partnerships
+    - workforce
+    - procurement
+    - marketing
+    - executive
+
+  # Per-corridor settings
+  sales:
+    enabled: true
+    sweep_cadence: "realtime"  # realtime | hourly | daily
+    stale_lead_threshold_days: 7
+    approval_required_for_outreach: true
+
+  operations:
+    enabled: true
+    sweep_cadence: "realtime"
+    event_proximity_alert_days: 7
+    complexity_threshold: 7  # 1-10 scale
+
+  finance:
+    enabled: true
+    sweep_cadence: "daily"
+    payment_due_alert_days: 3
+    approval_required_for_updates: true
+
+  partnerships:
+    enabled: true
+    sweep_cadence: "hourly"
+    relationship_drift_threshold_days: 14
+
+  workforce:
+    enabled: true
+    sweep_cadence: "realtime"
+    conflict_detection: true
+
+  procurement:
+    enabled: true
+    sweep_cadence: "daily"
+    prep_window_days: 3
+
+  marketing:
+    enabled: true
+    sweep_cadence: "hourly"
+    approval_required_for_posts: true
+
+  executive:
+    enabled: true
+    sweep_cadence: "daily"
+    daily_brief_time: "09:00"  # Local time
+    weekly_summary_day: "Monday"
+
+# Trigger Configuration
+triggers:
+  # Time-based sweep intervals (seconds)
+  realtime_interval: 300      # 5 minutes
+  hourly_interval: 3600       # 1 hour
+  daily_interval: 86400       # 24 hours
+  weekly_interval: 604800     # 7 days
+
+  # Event-based triggers
+  webhooks_enabled: true
+  file_watchers_enabled: false  # Not yet implemented
+
+# Approval Settings
+approvals:
+  # Global approval mode
+  require_approval_in_shadow_mode: true
+  require_approval_in_draft_mode: true
+  require_approval_in_autonomous_mode: false  # Only for high-stakes actions
+
+  # High-stakes actions (always require approval in autonomous mode)
+  high_stakes_actions:
+    - send_email
+    - send_sms
+    - update_crm
+    - post_social
+    - modify_calendar
+    - change_staffing
+    - update_finance
+    - delete_data
+
+  # Notification channels for approvals
+  notification_channels:
+    - email
+    # - slack  # Not yet implemented
+    # - dashboard  # Not yet implemented
+
+# Memory Configuration
+memory:
+  retention_days: 90
+  archival_threshold_days: 30
+  snapshot_interval_seconds: 3600  # 1 hour
+
+  # Memory limits
+  max_active_obligations: 1000
+  max_corridor_state_entries: 500
+  max_relational_records: 10000
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG | INFO | WARNING | ERROR
+  format: "structured"  # structured | plain
+  outputs:
+    - console
+    - file
+
+  file:
+    path: "logs/company-loop.log"
+    rotation: "500 MB"
+    retention: "30 days"
+
+  # Log specific subsystems at different levels
+  subsystems:
+    runtime: "INFO"
+    integrations: "DEBUG"
+    corridors: "INFO"
+    prediction: "DEBUG"
+    approvals: "INFO"
+
+# Self-Healing Configuration (Medic + Watchdog)
+self_healing:
+  # Medic configuration
+  medic:
+    enabled: true
+    interval_hours: 1  # Run medic every hour
+    max_failures_before_escalation: 3
+    health_check_window_hours: 1
+
+    # What the medic checks
+    checks:
+      - runtime_continuity
+      - tool_health
+      - memory_freshness
+      - queue_health
+      - integration_health
+      - schedule_recency
+      - the_nine_integrity
+
+    # Recovery strategies
+    recovery_enabled: true
+    auto_recovery_attempts: 3
+
+  # Watchdog configuration
+  watchdog:
+    enabled: true
+    check_interval_minutes: 30  # Check medic every 30 minutes
+    medic_expected_interval_hours: 1
+    max_medic_silence_hours: 2  # Alert if medic silent for 2+ hours
+
+    # Alert channels
+    alert_to:
+      - logs
+      # - gateway  # TODO: Enable when gateway is ready
+      # - email    # TODO: Enable when email is configured
+
+# The Nine Configuration
+the_nine:
+  directory: "memory/the_nine"
+  files:
+    - IDENTITY.md      # What the agent is
+    - BOOTSTRAP.md     # How it wakes up
+    - VOICE.md         # How it speaks
+    - RULES.md         # How it behaves
+    - USER.md          # What it knows about the human
+    - TOOLS.md         # What it can reach
+    - MEMORY.md        # What it remembers durably
+    - TODAY.md         # What happened today (working memory)
+    - HEARTBEAT.md     # What it must check proactively
+
+  # File update policies
+  updates:
+    TODAY_rollover_hour: 4  # Roll over at 4 AM local time
+    MEMORY_promotion_threshold: 0.8  # Confidence threshold for promotion
+    auto_writeback_enabled: true
+
+# Reporting Configuration
+reporting:
+  executive:
+    daily_brief_enabled: true
+    daily_brief_time: "09:00"
+    daily_brief_recipients:
+      - "owner@company.com"
+
+    weekly_summary_enabled: true
+    weekly_summary_day: "Monday"
+    weekly_summary_time: "08:00"
+    weekly_summary_recipients:
+      - "owner@company.com"
+
+  teams:
+    sales_summary_enabled: true
+    operations_summary_enabled: true
+    admin_summary_enabled: true
+
+  system:
+    health_report_enabled: true
+    health_report_interval_hours: 24
+    mismatch_logging: true
+    promotion_review_enabled: true
+
+# Shadow Mode Configuration
+shadow_mode:
+  enabled: true
+  comparison_window_days: 14
+  promotion_threshold: 0.85  # Confidence threshold for promotion
+
+  # What to validate in shadow mode
+  validate:
+    - stale_lead_detection
+    - event_readiness
+    - payment_alerts
+    - staffing_conflicts
+    - partner_followups
+
+# Prediction Configuration
+prediction:
+  # Confidence thresholds
+  min_confidence_for_action: 0.7
+  min_confidence_for_suggestion: 0.5
+  abstention_threshold: 0.3
+
+  # Historical accuracy tracking
+  track_accuracy: true
+  accuracy_window_days: 90
+
+# Integration Settings (references .env for credentials)
+integrations:
+  google:
+    enabled: true
+    services:
+      - sheets
+      - calendar
+      - drive
+      - gmail
+
+  clickup:
+    enabled: true
+    create_tasks: true
+    update_tasks: false  # Requires approval
+
+  close:
+    enabled: true
+    read_only: true  # Write requires approval
+
+  social:
+    enabled: true
+    platforms:
+      - youtube
+      - tiktok
+      - instagram
+      - linkedin
+      - twitter
+    read_only: true  # Posting requires approval
+
+  vy:
+    enabled: true
+    execution_mode: "observation"  # observation | mediated | autonomous
+
+  pieces:
+    enabled: true
+    memory_bridge: true
